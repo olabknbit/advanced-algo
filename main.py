@@ -1,5 +1,7 @@
 import numpy as np
 
+imag = 1j
+
 
 def file_to_array():
     with open('example.txt', 'r') as f:
@@ -13,12 +15,10 @@ def file_to_array():
 def dft(x):
     X = []
     N = len(x)
-    i = 1.  # TODO what is i?
-    omegaN = np.exp(i * 2. * np.pi / N)
     for k in range(N):
         Xk = 0
         for n, xn in enumerate(x):
-            Xk += xn * np.exp(-i * 2 * np.pi * k * n / N)
+            Xk += xn * np.exp(-imag * 2 * np.pi * k * n / N)
         X.append(Xk)
     return X
 
@@ -26,17 +26,17 @@ def dft(x):
 def idft(X):
     x = []
     N = len(X)
-    i = 1.  # TODO what is i?
     for n in range(N):
         xn = 0
         for k, Xk in enumerate(X):
-            xn += Xk * np.exp(i * 2 * np.pi * k * n / N)
+            xn += Xk * np.exp(imag * 2 * np.pi * k * n / N)
         x.append(1 / N * xn)
     return x
 
 
 def teoplitz(n, a, b):
-    return idft(np.convolve(np.array(dft(a)), np.array(dft(b))))
+    from numpy.fft import ifft, fft
+    return ifft(np.convolve(fft(a), fft(b)))
 
 
 if __name__ == '__main__':
