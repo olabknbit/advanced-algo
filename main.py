@@ -36,7 +36,8 @@ def idft(X):
 
 def teoplitz(n, a, b):
     from numpy.fft import ifft, fft
-    return ifft(np.convolve(fft(a), fft(b)))
+    b += [0] * (len(a) - len(b))
+    return ifft((fft(a) * fft(b)))
 
 
 if __name__ == '__main__':

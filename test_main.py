@@ -7,7 +7,7 @@ def test_example():
     n, a, b = main.file_to_array()
     mains = np.array(main.teoplitz(n, a, b))
     nps = np.convolve(a, b)
-    assert (mains == nps).all()
+    assert mains == nps
 
 
 def test_dft():
