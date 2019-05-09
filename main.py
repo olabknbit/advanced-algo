@@ -7,8 +7,8 @@ def file_to_array():
     with open('example.txt', 'r') as f:
         lines = f.readlines()
         n = int(lines[0])
-        a = [int(x) for x in lines[1].split(sep=' ')]
-        b = [int(x) for x in lines[2].split(sep=' ')]
+        a = [float(x) for x in lines[1].split(sep=' ')]
+        b = [float(x) for x in lines[2].split(sep=' ')]
     return n, a, b
 
 
@@ -35,9 +35,18 @@ def idft(X):
 
 
 def teoplitz(n, a, b):
-    from numpy.fft import ifft, fft
-    b += [0] * (len(a) - len(b))
-    return ifft((fft(a) * fft(b)))
+    padding = [0] * (n - 1)
+    a = np.append(a, padding)
+    b = np.append(padding, b)
+    b = np.append(b, [0.] * (len(a) - len(b)))
+
+    dft_b = np.array(dft(b))
+    dft_a = np.array(dft(a))
+    prod = dft_a * dft_b
+
+    idft_c = np.real(idft(prod))
+
+    return np.append(idft_c[n - 1:], idft_c[:n - 1])
 
 
 if __name__ == '__main__':
