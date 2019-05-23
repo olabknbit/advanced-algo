@@ -13,6 +13,21 @@ def file_to_array():
     return n, a, b
 
 
+def optimized_dft(x):
+    X = []
+    N = len(x)
+    for k in range(N):
+        even = 0.
+        for m in range(int(N / 2)):
+            even += x[2 * m] * np.exp(-imag * 2. * np.pi * k * m / (N / 2.))
+        odd = 0.
+        for m in range(int(N / 2)):
+            odd += x[2 * m + 1] * np.exp(-imag * 2. * np.pi * k * m / (N / 2.))
+        odd *= np.exp(-imag * 2 * np.pi * k / N)
+        X.append(even + odd)
+    return X
+
+
 def dft(x):
     X = []
     N = len(x)
@@ -41,8 +56,8 @@ def teoplitz(n, a, b):
     b = np.append(padding, b)
     b = np.append(b, [0.] * (len(a) - len(b)))
 
-    dft_a = np.array(dft(a))
-    dft_b = np.array(dft(b))
+    dft_a = np.array(optimized_dft(a))
+    dft_b = np.array(optimized_dft(b))
 
     prod = dft_a * dft_b
 
