@@ -13,24 +13,24 @@ def file_to_array():
     return n, a, b
 
 
-def optimized_dft(x):
+def fft(x):
     X = []
     N = len(x)
+
+    rreusables = [[np.exp(-imag * 2. * np.pi * k * m / (N / 2.)) for m in range(int(N / 2))] for k in range(N)]
+    factor = np.exp(-imag * 2. * np.pi * np.arange(N) / N)
     for k in range(N):
-        even = 0.
-        reusables = []
-        for m in range(int(N / 2)):
-            reusables.append(np.exp(-imag * 2. * np.pi * k * m / (N / 2.)))
-            even += x[2 * m] * reusables[m]
-        odd = 0.
-        for m in range(int(N / 2)):
-            odd += x[2 * m + 1] * reusables[m]
-        odd *= np.exp(-imag * 2 * np.pi * k / N)
+        x_even = x[::2]
+        x_odd = x[1::2]
+        even = sum(x_even * rreusables[k])
+        odd = sum(x_odd * rreusables[k])
+
+        odd *= factor[k]
         X.append(even + odd)
     return X
 
 
-def dft(x):
+def dft_slow(x):
     X = []
     N = len(x)
     for k in range(N):
@@ -58,8 +58,8 @@ def teoplitz(n, a, b):
     b = np.append(padding, b)
     b = np.append(b, [0.] * (len(a) - len(b)))
 
-    dft_a = np.array(optimized_dft(a))
-    dft_b = np.array(optimized_dft(b))
+    dft_a = np.array(fft(a))
+    dft_b = np.array(fft(b))
 
     prod = dft_a * dft_b
 
