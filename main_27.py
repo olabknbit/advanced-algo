@@ -7,8 +7,8 @@ example_filename = 'example.txt'
 another_example_filename = 'another_example.txt'
 
 
-def file_to_array():
-    with open(another_example_filename, 'r') as f:
+def file_to_array(filename):
+    with open(filename, 'r') as f:
         lines = f.readlines()
         n = int(lines[0])
         a = [float(x) for x in lines[1].split(' ')]
@@ -17,6 +17,8 @@ def file_to_array():
 
 
 def fft(x):
+    # print(len(x))
+    # exit()
     N = len(x)
     x = np.asarray(x)
 
@@ -81,5 +83,30 @@ def teoplitz(n, a, b):
     return np.append(idft_c[n - 1:], idft_c[:n - 1])
 
 
+def teoplitz_slow(n, a, b):
+    padding = [0] * (n - 1)
+    a = np.append(a, padding)
+    b = np.append(padding, b)
+    b = np.append(b, [0.] * (len(a) - len(b)))
+
+    dft_a = np.array(dft_slow(a))
+    dft_b = np.array(dft_slow(b))
+
+    prod = dft_a * dft_b
+
+    idft_c = np.real(idft_slow(prod))
+
+    return np.append(idft_c[n - 1:], idft_c[:n - 1])
+
+
+def write_results_to_file(original_filename, results):
+    results_filename = original_filename.split('.txt')[0] + ".wyj.txt"
+    line = ' '.join([str(int(el)) for el in results])
+    with open(results_filename, 'w') as f:
+        f.writelines([line])
+
+
 if __name__ == '__main__':
-    print(teoplitz(*file_to_array()))
+    results = teoplitz(*file_to_array(example_filename))
+    print(results)
+    write_results_to_file(example_filename, results)
