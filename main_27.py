@@ -18,11 +18,13 @@ def optimized_dft(x):
     N = len(x)
     for k in range(N):
         even = 0.
+        reusables = []
         for m in range(int(N / 2)):
-            even += x[2 * m] * np.exp(-imag * 2. * np.pi * k * m / (N / 2.))
+            reusables.append(np.exp(-imag * 2. * np.pi * k * m / (N / 2.)))
+            even += x[2 * m] * reusables[m]
         odd = 0.
         for m in range(int(N / 2)):
-            odd += x[2 * m + 1] * np.exp(-imag * 2. * np.pi * k * m / (N / 2.))
+            odd += x[2 * m + 1] * reusables[m]
         odd *= np.exp(-imag * 2 * np.pi * k / N)
         X.append(even + odd)
     return X
