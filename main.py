@@ -3,9 +3,12 @@ import numpy as np
 
 imag = 1j
 
+example_filename = 'example.txt'
+another_example_filename = 'another_example.txt'
+
 
 def file_to_array():
-    with open('example.txt', 'r') as f:
+    with open(example_filename, 'r') as f:
         lines = f.readlines()
         n = int(lines[0])
         a = [float(x) for x in lines[1].split(sep=' ')]

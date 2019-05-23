@@ -3,9 +3,12 @@ import numpy as np
 
 imag = 1j
 
+example_filename = 'example.txt'
+another_example_filename = 'another_example.txt'
+
 
 def file_to_array():
-    with open('example.txt', 'r') as f:
+    with open(another_example_filename, 'r') as f:
         lines = f.readlines()
         n = int(lines[0])
         a = [float(x) for x in lines[1].split(' ')]
@@ -37,7 +40,21 @@ def dft_slow(x):
     return X
 
 
-def idft(X):
+def ifft(x):
+    N = len(x)
+    x = np.asarray(x)
+
+    if N % 2 > 0:
+        return idft_slow(x)
+    else:
+        X_even = ifft(x[::2])
+        X_odd = ifft(x[1::2])
+        factor = np.exp(2j * np.pi * np.arange(N) / N)
+
+        return 1. / 2 * np.concatenate([X_even + factor[:N / 2] * X_odd, X_even + factor[N / 2:] * X_odd])
+
+
+def idft_slow(X):
     x = []
     N = len(X)
     for n in range(N):
@@ -59,7 +76,7 @@ def teoplitz(n, a, b):
 
     prod = dft_a * dft_b
 
-    idft_c = np.real(idft(prod))
+    idft_c = np.real(ifft(prod))
 
     return np.append(idft_c[n - 1:], idft_c[:n - 1])
 
