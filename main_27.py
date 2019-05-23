@@ -14,20 +14,16 @@ def file_to_array():
 
 
 def fft(x):
-    X = []
     N = len(x)
+    x = np.asarray(x)
 
-    rreusables = [[np.exp(-imag * 2. * np.pi * k * m / (N / 2.)) for m in range(int(N / 2))] for k in range(N)]
-    factor = np.exp(-imag * 2. * np.pi * np.arange(N) / N)
-    for k in range(N):
-        x_even = x[::2]
-        x_odd = x[1::2]
-        even = sum(x_even * rreusables[k])
-        odd = sum(x_odd * rreusables[k])
-
-        odd *= factor[k]
-        X.append(even + odd)
-    return X
+    if N % 2 > 0:
+        return dft_slow(x)
+    else:
+        X_even = fft(x[::2])
+        X_odd = fft(x[1::2])
+        factor = np.exp(-2j * np.pi * np.arange(N) / N)
+        return np.concatenate([X_even + factor[:N / 2] * X_odd, X_even + factor[N / 2:] * X_odd])
 
 
 def dft_slow(x):
