@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+from Tkinter import *
+
 from teoplitz_27 import teoplitz
 
 example_filename = 'example.txt'
@@ -9,10 +11,9 @@ another_example_filename = 'another_example.txt'
 def file_to_array(filename):
     with open(filename, 'r') as f:
         lines = f.readlines()
-        n = int(lines[0])
         a = [float(x) for x in lines[1].split(' ')]
         b = [float(x) for x in lines[2].split(' ')]
-    return n, a, b
+    return a, b
 
 
 def write_results_to_file(original_filename, results):
@@ -22,7 +23,17 @@ def write_results_to_file(original_filename, results):
         f.writelines([line])
 
 
+def choose_filename():
+    import tkFileDialog
+
+    root = Tk()
+    root.filename = tkFileDialog.askopenfilename(initialdir="/", title="Select file",
+                                                 filetypes=(("txt files", "*.txt"), ("all files", "*.*")))
+    return root.filename
+
+
 if __name__ == '__main__':
-    results = teoplitz(*file_to_array(example_filename))
+    filename = choose_filename()
+    results = teoplitz(*file_to_array(filename))
     print(results)
     write_results_to_file(example_filename, results)
