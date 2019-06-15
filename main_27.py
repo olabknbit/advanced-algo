@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 
 
-from teoplitz_27 import teoplitz
-
 example_filename = 'example.txt'
 another_example_filename = 'another_example.txt'
 
@@ -31,6 +29,8 @@ def get_filename():
 
 
 if __name__ == '__main__':
+    from teoplitz_27 import teoplitz
+
     input_file = get_filename()
     results = teoplitz(*file_to_array(input_file))
     print(results)
