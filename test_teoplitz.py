@@ -1,6 +1,6 @@
 import numpy as np
 
-import teoplitz_27 as teoplitz
+import teoplitz
 
 
 def test_teoplitz():

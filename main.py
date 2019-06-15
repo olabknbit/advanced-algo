@@ -29,7 +29,7 @@ def get_filename():
 
 
 if __name__ == '__main__':
-    from teoplitz_27 import teoplitz
+    from teoplitz import teoplitz
 
     input_file = get_filename()
     results = teoplitz(*file_to_array(input_file))
