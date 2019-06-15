@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-import sys
 
 from teoplitz_27 import teoplitz
 
@@ -23,21 +22,16 @@ def write_results_to_file(original_filename, results):
         f.writelines([line])
 
 
-def choose_filename():
-    import Tkinter
-    import tkFileDialog
+def get_filename():
+    import sys
 
-    root = Tkinter.Tk()
-    root.filename = tkFileDialog.askopenfilename(initialdir="/", title="Select file",
-                                                 filetypes=(("txt files", "*.txt"), ("all files", "*.*")))
-    return root.filename
+    if len(sys.argv) < 2:
+        raise Exception('No input file given')
+    return sys.argv[1]
 
 
 if __name__ == '__main__':
-    if len(sys.argv) < 2:
-        raise Exception('No input file given')
-    input_file = sys.argv[1]
-
+    input_file = get_filename()
     results = teoplitz(*file_to_array(input_file))
     print(results)
     write_results_to_file(input_file, results)
