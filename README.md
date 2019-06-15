@@ -13,6 +13,14 @@ Aby zainstalować bibliotekę `numpy` należy wywołać:
 ```
 pip install numpy
 ```
+lub jeśli chcemy korzystać z wersji python2
+```
+pip2 install numpy
+```
+lub z wersji python3
+```
+pip3 install numpy
+```
 
 ## Uruchomienie
 Aby uruchomić program nalezy wywołać:
