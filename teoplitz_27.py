@@ -11,7 +11,8 @@ def fft(x):
         X_even = fft(x[::2])
         X_odd = fft(x[1::2])
         factor = np.exp(-2j * np.pi * np.arange(N) / N)
-        return np.concatenate([X_even + factor[:N / 2] * X_odd, X_even + factor[N / 2:] * X_odd])
+        n_2 = int(N / 2)
+        return np.concatenate([X_even + factor[:n_2] * X_odd, X_even + factor[n_2:] * X_odd])
 
 
 def dft_slow(x):
@@ -35,8 +36,8 @@ def ifft(x):
         X_even = ifft(x[::2])
         X_odd = ifft(x[1::2])
         factor = np.exp(2j * np.pi * np.arange(N) / N)
-
-        return 1. / 2 * np.concatenate([X_even + factor[:N / 2] * X_odd, X_even + factor[N / 2:] * X_odd])
+        n_2 = int(N / 2)
+        return 1. / 2 * np.concatenate([X_even + factor[:n_2] * X_odd, X_even + factor[n_2:] * X_odd])
 
 
 def idft_slow(X):
