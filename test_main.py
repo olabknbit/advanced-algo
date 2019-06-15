@@ -22,3 +22,4 @@ def test_idft():
     mains = np.array(main.idft(a))
     nps = np.fft.ifft(a)
     np.testing.assert_array_almost_equal(mains, nps)
+

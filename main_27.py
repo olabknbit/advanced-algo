@@ -33,7 +33,10 @@ def choose_filename():
 
 
 if __name__ == '__main__':
-    filename = choose_filename()
-    results = teoplitz(*file_to_array(filename))
+    if len(sys.argv) < 2:
+        raise Exception('No input file given')
+    input_file = sys.argv[1]
+
+    results = teoplitz(*file_to_array(input_file))
     print(results)
-    write_results_to_file(example_filename, results)
+    write_results_to_file(input_file, results)
