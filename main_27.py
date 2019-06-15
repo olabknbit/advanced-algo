@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from Tkinter import *
+import sys
 
 from teoplitz_27 import teoplitz
 
@@ -24,9 +24,10 @@ def write_results_to_file(original_filename, results):
 
 
 def choose_filename():
+    import Tkinter
     import tkFileDialog
 
-    root = Tk()
+    root = Tkinter.Tk()
     root.filename = tkFileDialog.askopenfilename(initialdir="/", title="Select file",
                                                  filetypes=(("txt files", "*.txt"), ("all files", "*.*")))
     return root.filename
