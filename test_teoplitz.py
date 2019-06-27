@@ -7,17 +7,9 @@ def test_teoplitz():
     a = [7, 3, 2, 5, 1, 1, 1]
     b = [2, 5, 9, 4]
     mains = np.array(teoplitz.teoplitz(a, b))
-    nps = np.convolve(a, b)
+    nps = np.convolve(a, b, mode='valid')
     print(mains)
     print(nps)
-    np.testing.assert_array_almost_equal(mains, nps)
-
-
-def test_teoplitz_slow():
-    a = [7, 3, 2, 5, 1, 1, 1]
-    b = [2, 5, 9, 4]
-    mains = np.array(teoplitz.teoplitz_slow(a, b))
-    nps = np.convolve(a, b)
     np.testing.assert_array_almost_equal(mains, nps)
 
 

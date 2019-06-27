@@ -65,21 +65,4 @@ def teoplitz(a, b):
 
     idft_c = np.real(ifft(prod))
 
-    return np.append(idft_c[n - 1:], idft_c[:n - 1])
-
-
-def teoplitz_slow(a, b):
-    n = len(b)
-    padding = [0] * (n - 1)
-    a = np.append(a, padding)
-    b = np.append(padding, b)
-    b = np.append(b, [0.] * (len(a) - len(b)))
-
-    dft_a = np.array(dft_slow(a))
-    dft_b = np.array(dft_slow(b))
-
-    prod = dft_a * dft_b
-
-    idft_c = np.real(idft_slow(prod))
-
-    return np.append(idft_c[n - 1:], idft_c[:n - 1])
+    return idft_c[-n:]
